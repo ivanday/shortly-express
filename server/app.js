@@ -102,11 +102,26 @@ app.post('/login', (req, res, next) => {
 
     if true
     create a session?
-    somehow attach session to cookie?
-
-
-
+    somehow attach session to cookie
   */
+  models.Users.get({username: req.body.username})
+    .then((data) => {
+      return models.Users.compare(req.body.password, data.password, data.salt);
+    })
+    .then((isPasswordCorrect) => {
+      console.log('is found: ' + isPasswordCorrect);
+      if (isPasswordCorrect) {
+        res.redirect(201, '/');
+        res.end();
+      } else {
+        res.redirect(500, '/login');
+        res.end();
+      }
+    })
+    .catch(()=>{
+      res.redirect(500, '/login');
+      res.end();
+    });
 });
 
 //app post '/signup'
