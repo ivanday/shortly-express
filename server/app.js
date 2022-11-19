@@ -109,7 +109,6 @@ app.post('/login', (req, res, next) => {
       return models.Users.compare(req.body.password, data.password, data.salt);
     })
     .then((isPasswordCorrect) => {
-      console.log('is found: ' + isPasswordCorrect);
       if (isPasswordCorrect) {
         res.redirect(201, '/');
         res.end();
